@@ -24,7 +24,9 @@ docker run -it --volume ${PWD}:/data --workdir /data --entrypoint /usr/bin/make 
 For examples see these projects using GitHub Actions.
 
 * [Haskell GCD](https://github.com/frankhjung/haskell-gcd)
+* [Haskell Scrapbook](https://github.com/frankhjung/haskell-scrapbook)
 
 ## Links
 
+* [Docker Hub: Haskell](https://hub.docker.com/_/haskell)
 * [Stackage Resolvers](https://www.stackage.org)

@@ -4,8 +4,6 @@ RUN export TERM=xterm \
     && apt-get --yes --list-cleanup update \
     && apt-get --yes --fix-broken install make cabal-install hasktags hlint stylish-haskell \
     && apt-get --yes autoremove \
-    && apt-get --yes autoclean \
-    && cabal update \
-    && cabal install lens
+    && apt-get --yes autoclean
 WORKDIR /opt/workspace
-CMD /opt/ghc/8.6.5/bin/ghc --version
+CMD ghc --version
