@@ -7,10 +7,16 @@ make](https://www.gnu.org/software/make/).
 The latest Docker image can be found on [Docker Hub](https://cloud.docker.com),
 [here](https://cloud.docker.com/repository/docker/frankhjung/haskell/general).
 
+## Build
+
+```bash
+docker build --compress --rm --tag frankhjung/haskell:latest --tag frankhjung/haskell:8.6 --label 8.6 .
+```
+
 ## Run
 
 ```bash
-docker run frankhjung/haskell:latest
+docker run -it --volume ${PWD}:/data --workdir /data --entrypoint /usr/bin/make frankhjung/haskell:8.6 -f Makefile all
 ```
 
 ### Example
