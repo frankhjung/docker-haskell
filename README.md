@@ -20,7 +20,7 @@ docker login -u [username]
 To build image with version tags:
 
 ```bash
-docker build --compress --rm --tag frankhjung/haskell:8.6 --tag frankhjung/haskell:8.6.5 --label 8.6 --label 8.6.5 Dockerfile
+docker build --compress --rm --tag frankhjung/haskell:8.6 --tag frankhjung/haskell:8.6.5 --label 8.6 --label 8.6.5 .
 ```
 
 ## Run
