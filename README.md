@@ -20,7 +20,7 @@ docker login -u [username]
 To build image with version tags:
 
 ```bash
-docker build --compress --rm --tag frankhjung/haskell:8.6 --tag frankhjung/haskell:8.6.5 --label 8.6 --label 8.6.5 .
+docker build --compress --rm --tag frankhjung/haskell:8.8.4 --tag frankhjung/haskell:8.8.4 --label 8.8.4 .
 ```
 
 ## Run
@@ -28,7 +28,7 @@ docker build --compress --rm --tag frankhjung/haskell:8.6 --tag frankhjung/haske
 To test image run with:
 
 ```bash
-docker run -it --volume ${PWD}:/data --workdir /data --entrypoint /usr/bin/make frankhjung/haskell:8.6 -f Makefile all
+docker run -it --volume ${PWD}:/data --workdir /data --entrypoint /usr/bin/make frankhjung/haskell:8.8.4 -f Makefile all
 ```
 
 ## Push
@@ -37,8 +37,7 @@ Push image and tags to Docker Hub:
 
 ```bash
 docker push frankhjung/haskell
-docker push frankhjung/haskell:8.6
-docker push frankhjung/haskell:8.6.5
+docker push frankhjung/haskell:8.8.4
 ```
 
 ### Example
