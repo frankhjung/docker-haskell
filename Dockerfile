@@ -6,7 +6,7 @@ RUN export TERM=xterm \
     && apt-get --yes --fix-broken install \
     libgl-dev libglu1-mesa-dev libghc-glut-dev \
     freeglut3-dev make cabal-install \
-    hasktags hlint stylish-haskell \
+    hasktags hlint stylish-haskell yamllint \
     && apt-get --yes autoremove \
     && apt-get --yes autoclean
 WORKDIR /opt/workspace
