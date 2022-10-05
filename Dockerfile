@@ -1,4 +1,4 @@
-FROM haskell:8.10.7
+FROM haskell:9.0.2
 LABEL maintainer=frankhjung
 RUN export TERM=xterm \
     && apt-get --yes --list-cleanup update \

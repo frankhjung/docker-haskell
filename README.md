@@ -12,7 +12,7 @@ The latest Docker image can be found on [Docker Hub](https://cloud.docker.com),
 Prior to build, log into Docker Hub:
 
 ```bash
-docker login -u [username] -p [password]
+docker login -u [username] --password-stdin
 ```
 
 ## Build
@@ -20,7 +20,7 @@ docker login -u [username] -p [password]
 To build image with version tags:
 
 ```bash
-export VERSION=8.10.7
+export VERSION=9.0.2
 docker build --compress --rm --tag frankhjung/haskell:${VERSION} --label ${VERSION} .
 ```
 
