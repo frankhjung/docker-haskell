@@ -20,7 +20,7 @@ docker login -u [username] --password-stdin
 To build image with version tags:
 
 ```bash
-export VERSION=9.0.2
+export VERSION=9.2.8
 docker build --compress --rm --tag frankhjung/haskell:${VERSION} --label ${VERSION} .
 ```
 
@@ -29,7 +29,24 @@ docker build --compress --rm --tag frankhjung/haskell:${VERSION} --label ${VERSI
 To test image run with:
 
 ```bash
+export VERSION=9.2.8
 docker run -it --volume ${PWD}:/data --workdir /data --entrypoint /usr/bin/make frankhjung/haskell:${VERSION} -f Makefile all
+```
+
+## Tag
+
+To tag with `latest`:
+
+```bash
+export VERSION=9.2.8
+docker tag frankhjung/haskell:${VERSION} frankhjung/haskell:latest
+```
+
+Verify with:
+
+```bash
+$ docker image inspect --format='{{json .Config.Labels}}' frankhjung/haskell:latest
+{"9.2.8":"","maintainer":"frankhjung"}
 ```
 
 ## Push
