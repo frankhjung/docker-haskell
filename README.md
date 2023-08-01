@@ -24,14 +24,16 @@ export VERSION=9.2.8
 docker build --compress --rm --tag frankhjung/haskell:${VERSION} --label ${VERSION} .
 ```
 
-## Run
-
-To test image run with:
+## Verify
 
 ```bash
 export VERSION=9.2.8
-docker run -it --volume ${PWD}:/data --workdir /data --entrypoint /usr/bin/make frankhjung/haskell:${VERSION} -f Makefile all
+docker run -it --volume ${PWD}:/data --workdir /data frankhjung/haskell:${VERSION}
 ```
+
+Which should give this response:
+
+  The Glorious Glasgow Haskell Compilation System, version 9.2.8
 
 ## Tag
 
