@@ -37,4 +37,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: frankhjung/haskell:latest
+          tags: |
+             frankhjung/haskell:9.2.8
+             frankhjung/haskell:latest
