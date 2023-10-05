@@ -12,7 +12,7 @@ The latest Docker image can be found on [Docker Hub](https://cloud.docker.com),
 Prior to build, log into Docker Hub:
 
 ```bash
-docker login -u [username] --password-stdin
+echo [personal access token] | docker login -u [username] --password-stdin
 ```
 
 ## Build
@@ -20,27 +20,27 @@ docker login -u [username] --password-stdin
 To build image with version tags:
 
 ```bash
-export VERSION=9.2.8
+export VERSION=9.4.7
 docker build --compress --rm --tag frankhjung/haskell:${VERSION} --label ${VERSION} .
 ```
 
 ## Verify
 
 ```bash
-export VERSION=9.2.8
+export VERSION=9.4.7
 docker run -it --volume ${PWD}:/data --workdir /data frankhjung/haskell:${VERSION}
 ```
 
 Which should give this response:
 
-  The Glorious Glasgow Haskell Compilation System, version 9.2.8
+  The Glorious Glasgow Haskell Compilation System, version 9.4.7
 
 ## Tag
 
 To tag with `latest`:
 
 ```bash
-export VERSION=9.2.8
+export VERSION=9.4.7
 docker tag frankhjung/haskell:${VERSION} frankhjung/haskell:latest
 ```
 
@@ -48,7 +48,7 @@ Verify with:
 
 ```bash
 $ docker image inspect --format='{{json .Config.Labels}}' frankhjung/haskell:latest
-{"9.2.8":"","maintainer":"frankhjung"}
+{"9.4.7":"","maintainer":"frankhjung"}
 ```
 
 ## Push
