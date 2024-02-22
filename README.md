@@ -15,32 +15,52 @@ Prior to build, log into Docker Hub:
 echo [personal access token] | docker login -u [username] --password-stdin
 ```
 
+## Version
+
+Set version for session:
+
+```bash
+export VERSION=9.4.8
+```
+
 ## Build
 
 To build image with version tags:
 
 ```bash
-export VERSION=9.4.7
 docker build --compress --rm --tag frankhjung/haskell:${VERSION} --label ${VERSION} .
 ```
 
 ## Verify
 
 ```bash
-export VERSION=9.4.7
 docker run -it --volume ${PWD}:/data --workdir /data frankhjung/haskell:${VERSION}
 ```
 
 Which should give this response:
 
-  The Glorious Glasgow Haskell Compilation System, version 9.4.7
+  The Glorious Glasgow Haskell Compilation System, version 9.4.8
+
+## Run
+
+Single command:
+
+```bash
+docker container run -it frankhjung/haskell sh -c "hlint --version"
+HLint v2.1.10, (C) Neil Mitchell 2006-2018
+```
+
+Interactively:
+
+```bash
+docker container run -it frankhjung/haskell bash
+```
 
 ## Tag
 
 To tag with `latest`:
 
 ```bash
-export VERSION=9.4.7
 docker tag frankhjung/haskell:${VERSION} frankhjung/haskell:latest
 ```
 
@@ -48,7 +68,7 @@ Verify with:
 
 ```bash
 $ docker image inspect --format='{{json .Config.Labels}}' frankhjung/haskell:latest
-{"9.4.7":"","maintainer":"frankhjung"}
+{"9.4.8":"","maintainer":"frankhjung"}
 ```
 
 ## Push

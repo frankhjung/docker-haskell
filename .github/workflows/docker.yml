@@ -38,5 +38,5 @@ jobs:
         with:
           push: true
           tags: |
-             frankhjung/haskell:9.2.8
+             frankhjung/haskell:9.4.8
              frankhjung/haskell:latest
