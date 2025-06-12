@@ -20,8 +20,13 @@ echo [personal access token] | docker login -u [username] --password-stdin
 Set version for session:
 
 ```bash
-export VERSION=9.4.8
+export VERSION=9.6.7
 ```
+
+This version needs to be updated in both:
+
+1. [Dockerfile](./Dockerfile) line 1
+1. [docker-image.yml](.github/workflows/docker-image.yml) line 41
 
 ## Build
 
@@ -37,9 +42,7 @@ docker build --compress --rm --tag frankhjung/haskell:${VERSION} --label ${VERSI
 docker run -it --volume ${PWD}:/data --workdir /data frankhjung/haskell:${VERSION}
 ```
 
-Which should give this response:
-
-  The Glorious Glasgow Haskell Compilation System, version 9.4.8
+  The Glorious Glasgow Haskell Compilation System, version 9.6.7
 
 ## Run
 
@@ -47,8 +50,9 @@ Single command:
 
 ```bash
 docker container run -it frankhjung/haskell sh -c "hlint --version"
-HLint v2.1.10, (C) Neil Mitchell 2006-2018
 ```
+
+  HLint v3.8, (C) Neil Mitchell 2006-2024
 
 Interactively:
 
@@ -68,8 +72,9 @@ Verify with:
 
 ```bash
 $ docker image inspect --format='{{json .Config.Labels}}' frankhjung/haskell:latest
-{"9.4.8":"","maintainer":"frankhjung"}
 ```
+
+  {"9.6.7":"","maintainer":"frankhjung"}
 
 ## Push
 
