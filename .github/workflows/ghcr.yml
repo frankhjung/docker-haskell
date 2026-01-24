@@ -5,7 +5,6 @@ name: Build and Push Docker Image to GitHub Container Registry (GHCR)
 env:
   HASKELL_VERSION: ${{ vars.HASKELL_VERSION }}
 
-# yamllint disable-line rule:truthy
 on:
   push:
     branches: ["master"]
