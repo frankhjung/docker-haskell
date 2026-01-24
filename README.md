@@ -4,36 +4,96 @@
 projects using [GHC](https://www.haskell.org/ghc/). This includes [GNU
 make](https://www.gnu.org/software/make/).
 
-The latest Docker image can be found on [Docker Hub](https://cloud.docker.com),
-[here](https://cloud.docker.com/repository/docker/frankhjung/haskell/general).
+## Images
 
-## Login
+This Docker image is available from two container registries:
 
-Prior to build, log into Docker Hub:
+### Image on Docker Hub
+
+The Docker Hub image can be found at:
+[frankhjung/haskell](https://hub.docker.com/r/frankhjung/haskell)
+
+To pull from Docker Hub:
+
+```bash
+docker pull frankhjung/haskell:latest
+```
+
+Or with a specific version:
+
+```bash
+docker pull frankhjung/haskell:9.6.7
+```
+
+### Image on GitHub Container Registry (GHCR)
+
+The [GHCR](https://docs.github.com/en/packages) image can be found at:
+[ghcr.io/frankhjung/docker-haskell](https://github.com/frankhjung/docker-haskell/pkgs/container/docker-haskell)
+
+To pull from GHCR:
+
+```bash
+docker pull ghcr.io/frankhjung/docker-haskell:latest
+```
+
+Or with a specific version:
+
+```bash
+docker pull ghcr.io/frankhjung/docker-haskell:9.6.7
+```
+
+**Note:** Public images on GHCR are free to store and pull.
+
+## Configuration
+
+### Haskell Version
+
+The Haskell version is configured using the GitHub variable `HASKELL_VERSION`.
+This variable is referenced in:
+
+1. The [Dockerfile](./Dockerfile) via ARG
+2. The [docker-hub.yml](.github/workflows/docker-hub.yml) workflow
+3. The [ghcr.yml](.github/workflows/ghcr.yml) workflow
+
+To change the version, update the `HASKELL_VERSION` repository variable in
+GitHub.
+
+## Local Development
+
+### Login
+
+Prior to building locally, log into Docker Hub:
 
 ```bash
 echo [personal access token] | docker login -u [username] --password-stdin
 ```
 
-## Version
+Or for GHCR:
 
-Set version for session:
+```bash
+echo [personal access token] | docker login ghcr.io -u [username] --password-stdin
+```
+
+### Version
+
+Set version for local session:
 
 ```bash
 export VERSION=9.6.7
 ```
 
-This version needs to be updated in both:
+### Build
 
-1. [Dockerfile](./Dockerfile) line 1
-1. [docker-image.yml](.github/workflows/docker-image.yml) line 41
-
-## Build
-
-To build image with version tags:
+To build image locally with version tags:
 
 ```bash
 docker build --compress --rm --tag frankhjung/haskell:${VERSION} --label ${VERSION} .
+```
+
+Or for GHCR:
+
+```bash
+docker build --compress --rm --tag ghcr.io/frankhjung/docker-haskell:${VERSION} --label ${VERSION} .
 ```
 
 ## Verify
@@ -62,27 +122,54 @@ docker container run -it frankhjung/haskell bash
 
 ## Tag
 
-To tag with `latest`:
+### Tag with Docker Hub
+
+To tag with `latest` on Docker Hub:
 
 ```bash
 docker tag frankhjung/haskell:${VERSION} frankhjung/haskell:latest
 ```
 
-Verify with:
+### Tag with GHCR
+
+To tag with `latest` on GHCR:
 
 ```bash
-$ docker image inspect --format='{{json .Config.Labels}}' frankhjung/haskell:latest
+docker tag ghcr.io/frankhjung/docker-haskell:${VERSION} ghcr.io/frankhjung/docker-haskell:latest
 ```
 
-  {"9.6.7":"","maintainer":"frankhjung"}
+Verify tags with:
+
+```bash
+docker image inspect --format='{{json .Config.Labels}}' frankhjung/haskell:latest
+```
+
+Or for GHCR:
+
+```bash
+docker image inspect --format='{{json .Config.Labels}}' ghcr.io/frankhjung/docker-haskell:latest
+```
 
 ## Push
+
+### Push to Docker Hub
 
 Push image and all tags to Docker Hub:
 
 ```bash
 docker push -a frankhjung/haskell
 ```
+
+### Push to GHCR
+
+Push image and all tags to GHCR:
+
+```bash
+docker push -a ghcr.io/frankhjung/docker-haskell:latest
+```
+
+**Note:** GitHub Actions workflows automatically build and push images on push
+to master.
 
 ### Example
 
