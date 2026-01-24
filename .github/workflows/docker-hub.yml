@@ -39,5 +39,5 @@ jobs:
           build-args: |
             HASKELL_VERSION=${{ env.HASKELL_VERSION }}
           tags: |
-            ${{ github.repository }}:${{ vars.HASKELL_VERSION }}
-            ${{ github.repository }}:latest
+            frankhjung/haskell:${{ env.HASKELL_VERSION }}
+            frankhjung/haskell:latest
