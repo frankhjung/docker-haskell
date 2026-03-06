@@ -15,6 +15,6 @@ RUN export TERM=xterm \
     && apt-get --yes autoremove \
     && apt-get --yes autoclean
 RUN cabal update \
-    && cabal install --overwrite-policy=always hlint
+    && cabal install --overwrite-policy=always hlint ormolu stylish-haskell
 WORKDIR /opt/workspace
 CMD ghc --version

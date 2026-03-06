@@ -28,18 +28,18 @@ docker pull frankhjung/haskell:9.6.7
 ### Image on GitHub Container Registry (GHCR)
 
 The [GHCR](https://docs.github.com/en/packages) image can be found at:
-[ghcr.io/frankhjung/docker-haskell](https://github.com/frankhjung/docker-haskell/pkgs/container/docker-haskell)
+[ghcr.io/frankhjung/haskell](https://github.com/frankhjung/docker-haskell/pkgs/container/haskell)
 
 To pull from GHCR:
 
 ```bash
-docker pull ghcr.io/frankhjung/docker-haskell:latest
+docker pull ghcr.io/frankhjung/haskell:latest
 ```
 
 Or with a specific version:
 
 ```bash
-docker pull ghcr.io/frankhjung/docker-haskell:9.6.7
+docker pull ghcr.io/frankhjung/haskell:9.6.7
 ```
 
 **Note:** Public images on GHCR are free to store and pull.
@@ -52,8 +52,8 @@ The Haskell version is configured using the GitHub variable `HASKELL_VERSION`.
 This variable is referenced in:
 
 1. The [Dockerfile](./Dockerfile) via ARG
-2. The [docker-hub.yml](.github/workflows/docker-hub.yml) workflow
-3. The [ghcr.yml](.github/workflows/ghcr.yml) workflow
+2. The [docker-hub.yml](.github/workflows/docker-hub.yml) workflow (build once,
+   push to Docker Hub and GHCR)
 
 To change the version, update the `HASKELL_VERSION` repository variable in
 GitHub.
@@ -93,7 +93,7 @@ docker build --compress --rm --tag frankhjung/haskell:${VERSION} --label ${VERSI
 Or for GHCR:
 
 ```bash
-docker build --compress --rm --tag ghcr.io/frankhjung/docker-haskell:${VERSION} --label ${VERSION} .
+docker build --compress --rm --tag ghcr.io/frankhjung/haskell:${VERSION} --label ${VERSION} .
 ```
 
 ## Verify
@@ -135,7 +135,7 @@ docker tag frankhjung/haskell:${VERSION} frankhjung/haskell:latest
 To tag with `latest` on GHCR:
 
 ```bash
-docker tag ghcr.io/frankhjung/docker-haskell:${VERSION} ghcr.io/frankhjung/docker-haskell:latest
+docker tag ghcr.io/frankhjung/haskell:${VERSION} ghcr.io/frankhjung/haskell:latest
 ```
 
 Verify tags with:
@@ -147,7 +147,7 @@ docker image inspect --format='{{json .Config.Labels}}' frankhjung/haskell:lates
 Or for GHCR:
 
 ```bash
-docker image inspect --format='{{json .Config.Labels}}' ghcr.io/frankhjung/docker-haskell:latest
+docker image inspect --format='{{json .Config.Labels}}' ghcr.io/frankhjung/haskell:latest
 ```
 
 ## Push
@@ -165,11 +165,11 @@ docker push -a frankhjung/haskell
 Push image and all tags to GHCR:
 
 ```bash
-docker push -a ghcr.io/frankhjung/docker-haskell:latest
+docker push -a ghcr.io/frankhjung/haskell
 ```
 
-**Note:** GitHub Actions workflows automatically build and push images on push
-to master.
+**Note:** The GitHub Actions workflow automatically builds once and pushes to
+both Docker Hub and GHCR on push to `master`. Tag pushes are ignored.
 
 ### Example
 
