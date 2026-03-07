@@ -1,184 +1,99 @@
 # docker-haskell
 
-[Debian](https://hub.docker.com/_/debian) based image for building Haskell
-projects using [GHC](https://www.haskell.org/ghc/). This includes [GNU
-make](https://www.gnu.org/software/make/).
+Docker image for a Haskell toolchain, built on top of the official
+[`haskell`](https://hub.docker.com/_/haskell) image.
 
-## Images
+The image version is controlled by `ARG HASKELL_VERSION` in `Dockerfile`
+(currently `9.6.7`).
 
-This Docker image is available from two container registries:
+## What Is Included
 
-### Image on Docker Hub
+From the base image and install steps in `Dockerfile`, the container includes:
 
-The Docker Hub image can be found at:
-[frankhjung/haskell](https://hub.docker.com/r/frankhjung/haskell)
+- GHC / `haskell`
+- Cabal
+- Stack
+- GNU Make
+- `hlint`, `ormolu`, `stylish-haskell`
+- `yamllint`, `hasktags`
+- OpenGL/GLUT development packages
 
-To pull from Docker Hub:
-
-```bash
-docker pull frankhjung/haskell:latest
-```
-
-Or with a specific version:
-
-```bash
-docker pull frankhjung/haskell:9.6.7
-```
-
-### Image on GitHub Container Registry (GHCR)
-
-The [GHCR](https://docs.github.com/en/packages) image can be found at:
-[ghcr.io/frankhjung/haskell](https://github.com/frankhjung/docker-haskell/pkgs/container/haskell)
-
-To pull from GHCR:
+Default container command:
 
 ```bash
-docker pull ghcr.io/frankhjung/haskell:latest
+ghc --version
 ```
 
-Or with a specific version:
+## Requirements
+
+- Docker with Buildx support
+- GNU Make
+
+You can override the Docker CLI command used by Make with `DOCKER`.
+
+## Make Targets
+
+Show available targets:
 
 ```bash
-docker pull ghcr.io/frankhjung/haskell:9.6.7
+make help
 ```
 
-**Note:** Public images on GHCR are free to store and pull.
+Main targets:
 
-## Configuration
+- `make build-image`: Builds tags `haskell:<HASKELL_VERSION>` and
+  `haskell:latest`
+- `make version`: Builds the image and runs `haskell --version` inside it
+- `make images`: Lists local images named `haskell`
+- `make doctor`: Prints Docker context, contexts list, Buildx builders, and
+  project images
 
-### Haskell Version
+`make` defaults to `make version`.
 
-The Haskell version is configured using the GitHub variable `HASKELL_VERSION`.
-This variable is referenced in:
+## Build Manually
 
-1. The [Dockerfile](./Dockerfile) via ARG
-2. The [docker-hub.yml](.github/workflows/docker-hub.yml) workflow (build once,
-   push to Docker Hub and GHCR)
-
-To change the version, update the `HASKELL_VERSION` repository variable in
-GitHub.
-
-## Local Development
-
-### Login
-
-Prior to building locally, log into Docker Hub:
+If you prefer direct Docker commands:
 
 ```bash
-echo [personal access token] | docker login -u [username] --password-stdin
+docker buildx build --load \
+  --build-arg HASKELL_VERSION=9.6.7 \
+  --tag haskell:9.6.7 \
+  --tag haskell:latest \
+  .
 ```
 
-Or for GHCR:
+## Run Examples
+
+Check the compiler version:
 
 ```bash
-echo [personal access token] | docker login ghcr.io -u [username] --password-stdin
+docker run --rm haskell:latest ghc --version
 ```
 
-### Version
-
-Set version for local session:
+Check formatter/linter tooling:
 
 ```bash
-export VERSION=9.6.7
+docker run --rm haskell:latest hlint --version
+docker run --rm haskell:latest ormolu --version
+docker run --rm haskell:latest stylish-haskell --version
 ```
 
-### Build
-
-To build image locally with version tags:
+Open an interactive shell:
 
 ```bash
-docker build --compress --rm --tag frankhjung/haskell:${VERSION} --label ${VERSION} .
+docker run --rm -it haskell:latest bash
 ```
 
-Or for GHCR:
+## Change Haskell Version
+
+Update the first line in `Dockerfile`:
+
+```dockerfile
+ARG HASKELL_VERSION=<new-version>
+```
+
+Then rebuild:
 
 ```bash
-docker build --compress --rm --tag ghcr.io/frankhjung/haskell:${VERSION} --label ${VERSION} .
+make build-image
 ```
-
-## Verify
-
-```bash
-docker run -it --volume ${PWD}:/data --workdir /data frankhjung/haskell:${VERSION}
-```
-
-  The Glorious Glasgow Haskell Compilation System, version 9.6.7
-
-## Run
-
-Single command:
-
-```bash
-docker container run -it frankhjung/haskell sh -c "hlint --version"
-```
-
-  HLint v3.8, (C) Neil Mitchell 2006-2024
-
-Interactively:
-
-```bash
-docker container run -it frankhjung/haskell bash
-```
-
-## Tag
-
-### Tag with Docker Hub
-
-To tag with `latest` on Docker Hub:
-
-```bash
-docker tag frankhjung/haskell:${VERSION} frankhjung/haskell:latest
-```
-
-### Tag with GHCR
-
-To tag with `latest` on GHCR:
-
-```bash
-docker tag ghcr.io/frankhjung/haskell:${VERSION} ghcr.io/frankhjung/haskell:latest
-```
-
-Verify tags with:
-
-```bash
-docker image inspect --format='{{json .Config.Labels}}' frankhjung/haskell:latest
-```
-
-Or for GHCR:
-
-```bash
-docker image inspect --format='{{json .Config.Labels}}' ghcr.io/frankhjung/haskell:latest
-```
-
-## Push
-
-### Push to Docker Hub
-
-Push image and all tags to Docker Hub:
-
-```bash
-docker push -a frankhjung/haskell
-```
-
-### Push to GHCR
-
-Push image and all tags to GHCR:
-
-```bash
-docker push -a ghcr.io/frankhjung/haskell
-```
-
-**Note:** The GitHub Actions workflow automatically builds once and pushes to
-both Docker Hub and GHCR on push to `master`. Tag pushes are ignored.
-
-### Example
-
-For examples see these projects using GitHub Actions.
-
-* [Haskell GCD](https://github.com/frankhjung/haskell-gcd)
-* [Haskell Scrapbook](https://github.com/frankhjung/haskell-scrapbook)
-
-## Links
-
-* [Docker Hub: Haskell](https://hub.docker.com/_/haskell)
-* [Stackage Resolvers](https://www.stackage.org)
